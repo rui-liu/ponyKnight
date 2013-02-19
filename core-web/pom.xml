@@ -7,6 +7,7 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>core-web</artifactId>
+	<packaging>bundle</packaging>
 	<build>
 		<plugins>
 			<plugin>
@@ -15,27 +16,12 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<!-- Export-Package>org.foo.myproject.api</Export-Package> -->
-						<!-- Private-Package>org.foo.myproject.*</Private-Package> -->
-						<Bundle-Activator>org.ponyKnight.osgi.Activator</Bundle-Activator>
+                        <Bundle-SymbolicName>org.ponyKnight.web-core</Bundle-SymbolicName>
+                        <Bundle-Activator>org.ponyKnight.osgi.Activator</Bundle-Activator>
+                        <Bundle-Name>Apache Felix Deployment Admin</Bundle-Name>
+                        <Bundle-Description>Test bundle</Bundle-Description>
+                        <Bundle-Vendor>The Apachez Software Foundation</Bundle-Vendor>
 					</instructions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<index>true</index>
-						<manifest>
-							<addClasspath>true</addClasspath>
-						</manifest>
-						<manifestEntries>
-							<DeploymentPackage-SymbolicName>${artifactId}</DeploymentPackage-SymbolicName>
-							<DeploymentPackage-Version>${version}</DeploymentPackage-Version>
-						</manifestEntries>
-					</archive>
 				</configuration>
 			</plugin>
 		</plugins>

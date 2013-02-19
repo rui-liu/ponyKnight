@@ -36,7 +36,7 @@ public class Activator implements BundleActivator {
 			System.out.println("-----------------------------------------------------------------------");
 			System.out.println("-----------------------------------------------------------------------");
 			HttpService service = (HttpService) context.getService(sRef);
-			service.registerResources("/", "/www", null);
+			service.registerResources("/www", "/www", null);
 		}
 	}
 

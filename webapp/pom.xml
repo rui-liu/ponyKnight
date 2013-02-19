@@ -155,7 +155,6 @@
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.dependencymanager</artifactId>
 			<version>3.0.0</version>
-			
 		</dependency>
 	</dependencies>
 </project>

@@ -11,6 +11,7 @@
     <modules>
         <module>webapp</module>
         <module>web-core</module>
+        <module>hdfs</module>
     </modules>
     <dependencies>
         <dependency>

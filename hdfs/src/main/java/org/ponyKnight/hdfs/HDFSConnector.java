@@ -15,12 +15,16 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class HDFSConnector {
+
     Configuration conf;
     public HDFSConnector() {
+        this("10.9.109.80","9000");
+    }
+
+    public HDFSConnector(String host, String port){
         conf = new Configuration();
-        conf.addResource(new Path("c:/core-site.xml"));
-        conf.addResource(new Path("c:/hdfs-site.xml"));
-        conf.set("fs.default.name", "hdfs://10.9.109.80:9000");
+        conf.set("fs.defaultFS", "hdfs://"+host+":"+port+"/");
+        System.setProperty("HADOOP_USER_NAME","hadoop");
     }
 
     public FileSystem getFileSystem() throws IOException {

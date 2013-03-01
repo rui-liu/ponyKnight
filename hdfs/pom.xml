@@ -10,12 +10,52 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hdfs</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.6.2.201302030002</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <check>            b
+                                <classRatio>10</classRatio>
+                                <instructionRatio>10</instructionRatio>
+                                <methodRatio>15</methodRatio>
+                                <branchRatio>15</branchRatio>
+                                <complexityRatio>15</complexityRatio>
+                                <lineRatio>10</lineRatio>
+                            </check>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
-            <version>2.0.3-alpha</version>
+            <version>2.0.2-alpha</version>
         </dependency>
     </dependencies>
 </project>

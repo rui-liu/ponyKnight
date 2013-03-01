@@ -6,7 +6,9 @@ import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.RemoteIterator;
 import org.ponyKnight.hdfs.HDFSConnector;
+import org.ponyKnight.hdfs.HDFSUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
@@ -23,13 +25,14 @@ public class HelloWorld extends Page {
     public HelloWorld() {
         HDFSConnector connector = new HDFSConnector();
         try {
-            FileSystem fs = connector.getFileSystem();
-            RemoteIterator<LocatedFileStatus> iter = fs.listFiles(new Path("/"), false);
+            File f = new File("C:\\Users\\rliu1\\Documents\\GitHub\\ponyKnight\\webapp\\target\\ponyKnight.war");
+            HDFSUtils.putFile(f,"/"+f.getName(),true,connector);
+            RemoteIterator<LocatedFileStatus> iter = HDFSUtils.listFile("/", false, connector);
             String paths = "";
-            while(iter.hasNext()){
-                paths += iter.next().getPath().getName() + "<br/>";
+            while (iter.hasNext()) {
+                paths += iter.next().getPath().getName() + "<br/>\n";
             }
-            addModel("time", paths);
+            addModel("time", "<br/>\n"+paths);
 
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

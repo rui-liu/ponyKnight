@@ -1,6 +1,5 @@
 package org.ponyKnight.hdfs.test;
 
-import org.apache.hadoop.fs.FSDataInputStream;
 import org.ponyKnight.hdfs.HDFSConnector;
 import org.ponyKnight.hdfs.HDFSUtils;
 import org.testng.annotations.BeforeClass;
@@ -10,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 
 import static org.testng.Assert.*;
 
@@ -27,8 +25,10 @@ public class HDFSUtilsTest {
     File txtFile = null;
     File binaryFile = null;
 
+
     @BeforeClass
-    public void init() throws URISyntaxException {
+    public void init() throws Exception {
+        DFSCluster.ensureCluster();
         conn = new HDFSConnector();
         txtFile = new File(this.getClass().getResource("/TextTestFile.txt").toURI());
     }
@@ -55,9 +55,10 @@ public class HDFSUtilsTest {
         BufferedReader in = new BufferedReader(new InputStreamReader(HDFSUtils.openFile("/" + txtFile.getName(), conn)));
         verifyTextContent(in);
     }
+
     @Test(groups = {"UnitTest", "HDFS"}, priority = 7)
-    public void removeFileTest() throws Exception{
-        HDFSUtils.rmFile("/"+txtFile.getName(), false,conn);
+    public void removeFileTest() throws Exception {
+        HDFSUtils.deleteFile("/" + txtFile.getName(), false, conn);
     }
 
     private void verifyTextContent(BufferedReader in) throws IOException {

@@ -31,7 +31,7 @@ public class HDFSUtils {
         in.close();
     }
 
-    public static void rmFile(String path, boolean recursive, HDFSConnector conn) throws IOException {
+    public static void deleteFile(String path, boolean recursive, HDFSConnector conn) throws IOException {
         FileSystem fs = conn.getFileSystem();
         fs.delete(new Path(path), recursive);
     }

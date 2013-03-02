@@ -18,7 +18,7 @@ public class HDFSConnector {
 
     Configuration conf;
     public HDFSConnector() {
-        this("10.9.109.80","9000");
+        this("localhost","8020");
     }
 
     public HDFSConnector(String host, String port){

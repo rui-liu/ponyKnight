@@ -12,6 +12,7 @@
         <module>webapp</module>
         <module>web-core</module>
         <module>hdfs</module>
+        <module>mapre</module>
     </modules>
     <dependencies>
         <dependency>

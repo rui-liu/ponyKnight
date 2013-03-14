@@ -6,45 +6,68 @@ import java.util.Iterator;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapred.*;
+import org.apache.hadoop.mapred.FileInputFormat;
+import org.apache.hadoop.mapred.FileOutputFormat;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapred.JobConf;
-import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Mapper.Context;
-import org.apache.hadoop.mapreduce.Reducer;
 
 public class SampleMapreJob {
-	public static Job createJob(Configuration config, String inputPath, String outputPath) throws IOException {
-		Job job = Job.getInstance(config);
+	public static JobConf createJob(Configuration config, String inputPath, String outputPath) throws IOException {
+		JobConf job = new JobConf(config,SampleMapreJob.class);
 		job.setJarByClass(SampleMapreJob.class);
 		job.setJobName("Sample Mapre Job");
-		FileInputFormat.setInputPaths(job, new Path(inputPath));
+        FileInputFormat.setInputPaths(job, new Path(inputPath));
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
+        //job.setNumMapTasks(16);
+        job.setNumReduceTasks(8);
+        //job.setMaxMapAttempts(20);
+        //job.setMaxReduceAttempts(20);
+        //job.setMemoryForMapTask(300);
+        //job.setMemoryForReduceTask(200);
         job.setMapperClass(LineLengthMapper.class);
         job.setReducerClass(LineLengthReducer.class);
         job.setOutputKeyClass(LongWritable.class);
         job.setOutputValueClass(IntWritable.class);
+        //job.setCompressMapOutput(true);
+        //job.setMapOutputCompressorClass(LzoCodec.class);
 		return job;
 	}
 
-	public static class LineLengthMapper extends
-			Mapper<LongWritable, Text, LongWritable, IntWritable> {
-		public void map(LongWritable key, Text value, Context context)
-				throws IOException, InterruptedException {
-			System.out.println("Running...");
-			context.write(key, new IntWritable(value.toString().length()));
-		}
-	}
+	public static class LineLengthMapper implements Mapper<LongWritable, Text, LongWritable, IntWritable> {
+        @Override
+        public void map(LongWritable key, Text value, OutputCollector<LongWritable, IntWritable> output, Reporter reporter) throws IOException {
+            //To change body of implemented methods use File | Settings | File Templates.
+            output.collect(key, new IntWritable(value.toString().length()));
+        }
 
-	public static class LineLengthReducer extends
-			Reducer<LongWritable, IntWritable, LongWritable, IntWritable> {
-		public void reduce(LongWritable key, Iterator<IntWritable> values,
-				Context context) throws IOException, InterruptedException {
-			int length = 0;
-			if (values.hasNext())
-				length = values.next().get();
-			context.write(key, new IntWritable(length));
-		}
-	}
+        @Override
+        public void close() throws IOException {
+
+        }
+
+        @Override
+        public void configure(JobConf job) {
+
+        }
+    }
+
+	public static class LineLengthReducer implements Reducer<LongWritable, IntWritable, LongWritable, IntWritable> {
+        @Override
+        public void configure(JobConf job) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void close() throws IOException {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void reduce(LongWritable key, Iterator<IntWritable> values, OutputCollector<LongWritable, IntWritable> output, Reporter reporter) throws IOException {
+            int length = 0;
+            if (values.hasNext())
+                length = values.next().get();
+            output.collect(key, new IntWritable(length));
+        }
+    }
 }

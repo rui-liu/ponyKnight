@@ -9,17 +9,16 @@ import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapred.*;
 import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.mapred.FileOutputFormat;
-import org.apache.hadoop.mapreduce.Job;
 
-public class SampleMapreJob {
+public class LineLengthJob {
 	public static JobConf createJob(Configuration config, String inputPath, String outputPath) throws IOException {
-		JobConf job = new JobConf(config,SampleMapreJob.class);
-		job.setJarByClass(SampleMapreJob.class);
-		job.setJobName("Sample Mapre Job");
+		JobConf job = new JobConf(config,LineLengthJob.class);
+		job.setJarByClass(LineLengthJob.class);
+		job.setJobName("Line Length Job");
         FileInputFormat.setInputPaths(job, new Path(inputPath));
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
         //job.setNumMapTasks(16);
-        job.setNumReduceTasks(8);
+        //job.setNumReduceTasks(1);
         //job.setMaxMapAttempts(20);
         //job.setMaxReduceAttempts(20);
         //job.setMemoryForMapTask(300);
